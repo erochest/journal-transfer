@@ -1,10 +1,15 @@
-
 SRC=$(shell find src -name '*.hs')
 
 CABAL=stack
 FLAGS=--enable-tests
 
 all: init test docs package
+
+journal.org: journal.md
+	stack build journal-transfer --exec \
+		"pandoc --from markdown --to org --smart \
+		--filter journal-transfer \
+		--output $@ $<"
 
 init: stack.yaml
 
@@ -46,7 +51,7 @@ tags: ${SRC}
 	codex update
 
 argon:
-        find src -name \*.hs | xargs argon
+	find src -name \*.hs | xargs argon
 
 hlint:
 	hlint *.hs src specs

@@ -29,9 +29,12 @@ executable journal-transfer
   -- other-extensions:    
   build-depends:       base >=4.8 && <5
                      -- , journal-transfer
+                     , containers
+                     , old-locale
                      , optparse-applicative
                      , pandoc-types
                      , text
+                     , thyme
   hs-source-dirs:      app
   default-language:    Haskell2010
 
