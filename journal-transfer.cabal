@@ -29,10 +29,14 @@ executable journal-transfer
   -- other-extensions:    
   build-depends:       base >=4.8 && <5
                      -- , journal-transfer
+                     , aeson
+                     , bytestring
                      , containers
+                     , lens
                      , old-locale
                      , optparse-applicative
                      , pandoc-types
+                     , split
                      , text
                      , thyme
   hs-source-dirs:      app
