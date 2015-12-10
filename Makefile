@@ -11,6 +11,9 @@ journal.org: journal.md
 		--filter journal-transfer \
 		--output $@ $<"
 
+journal.json: journal.md
+	pandoc --from markdown --to json --smart --output $@ $<
+
 init: stack.yaml
 
 stack.yaml:
