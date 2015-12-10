@@ -94,12 +94,14 @@ flattenDayIndex year month =
 
 flattenTimeIndex :: YearMonthDay -> TimeIndex -> [Block]
 flattenTimeIndex ymd =
-    (mkHeader 3 (formatTime' "%Y-%m-%d %A" ymd) :)
+    (mkHeader 3 (foldMap (formatTime' "%F %A") lt) :)
     . concatMap (uncurry ( flattenHeaderGroup
                          . liftA2 LocalTime (gregorianValid ymd)
                          . Just
                          ))
           . M.toList
+    where
+      lt = LocalTime <$> gregorianValid ymd <*> pure midnight
 
 flattenHeaderGroup :: Maybe LocalTime -> HeaderGroup -> [Block]
 flattenHeaderGroup Nothing   _         = []
