@@ -26,7 +26,10 @@ process (Pandoc meta blocks) =
                           .   (id &&& parseZonedHeader . fold . header)
                           <=< blocksToTree
                           )
-           $ split (keepDelimsR $ whenElt isH1) blocks
+           $ split' blocks
+
+split' :: [Block] -> [[Block]]
+split' = filter (not . null) . split (keepDelimsL $ whenElt isH1)
 
 isH1 :: Block -> Bool
 isH1 (Header 1 _ _) = True

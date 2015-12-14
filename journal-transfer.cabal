@@ -49,12 +49,15 @@ test-suite journal-transfer-specs
   ghc-options:         -threaded -rtsopts
   hs-source-dirs:      specs
   main-is:             Specs.hs
+  other-modules:         ProcessSpec
   build-depends:         base
                        , QuickCheck
                        , smallcheck
                        , hspec
                        , journal-transfer
+                       , aeson
                        , containers
+                       , groom
                        , lens
                        , old-locale
                        , optparse-applicative
