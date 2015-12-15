@@ -21,12 +21,21 @@ process :: Pandoc -> Pandoc
 process (Pandoc meta blocks) =
     Pandoc meta
                . flattenYearIndex
+               . fmap (fmap (fmap (fmap demoteHeaders)))
                . foldl' indexGroup M.empty
                . mapMaybe (   sequenceA
                           .   (id &&& parseZonedHeader . fold . header)
                           <=< blocksToTree
                           )
            $ split' blocks
+
+demoteHeaders :: HeaderGroup -> HeaderGroup
+demoteHeaders (HG h blocks) = HG h $ map (demoteHeader 3) blocks
+
+demoteHeader :: Int -> Block -> Block
+demoteHeader offset (Header level attrs text) =
+    Header (level + offset) attrs text
+demoteHeader _ block = block
 
 split' :: [Block] -> [[Block]]
 split' = filter (not . null) . split (keepDelimsL $ whenElt isH1)
